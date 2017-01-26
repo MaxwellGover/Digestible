@@ -32,7 +32,7 @@ const authentication = {
         .once('value')
         .then(snapshot => {
           const dbUser = snapshot.val()
-            context.commit('getCurrentUser', {
+            context.commit('loadDbUser', {
               displayName: dbUser.name,
               email: dbUser.email,
               userImage: dbUser.userImage,

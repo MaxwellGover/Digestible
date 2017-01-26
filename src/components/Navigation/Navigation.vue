@@ -19,13 +19,18 @@
     <!-- This "nav-menu" is hidden on mobile -->
     <!-- Add the modifier "is-active" to display it on mobile -->
     <div class="nav-right nav-menu">
-      <a class="nav-item">
+    
+      <a class="nav-item" id="addResource">
         Add a resource
       </a>
-    
+
       <a class="nav-item">
-        <img id="userImage" :src="user.userImage" alt="img">
+      	<i class="fa fa-search" aria-hidden="true"></i>
       </a>
+    
+      
+     <img id="userImage" :src="user.userImage" alt="img">
+     
     </div>
   </div>
 </nav> 
@@ -54,6 +59,12 @@ export default {
   padding-bottom: 10px;
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
 #logo {
   font-size: 28px;
   font-family: 'Fredoka One', cursive;
@@ -61,7 +72,14 @@ export default {
 }
 
 #userImage {
+  height: 40px;
+  width: 40px;
+  margin-left: 15px;
   border-radius: 50%
+}
+
+#addResource {
+  color: #ff3860
 }
 
 </style>

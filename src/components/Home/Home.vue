@@ -1,15 +1,30 @@
 <template>
   
-  <div id="homeContainer">
-    Home
+  <div id="homeContainer" class="container">
+
+  	<div id="resourceFeed">
+    	<resource-card v-for="(resource, index) in resources" :resource="resource"></resource-card>
+  	</div>
+  
   </div>  
 
 </template>
 
 <script>
+import Vue from 'vue'
+import VueFire from 'vuefire'
+import { database } from '~/firebase/constants'
+
+import ResourceCard from '~/components/ResourceCard/ResourceCard'
+
+Vue.use(VueFire)
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  components: { ResourceCard },
+  firebase: {
+  	resources: database.ref('/resources/')
+  }
 }
 
 </script>
@@ -17,9 +32,12 @@ export default {
 <style scoped>
 
 #homeContainer {
-  height: 100vh;
   display: flex;
-  border: 1px solid red;
+}
+
+#resourceFeed {
+  margin-top: 60px;
+  width: 60%;
 }
 
 </style>

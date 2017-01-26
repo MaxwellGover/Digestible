@@ -3,12 +3,14 @@ import Vuex from 'vuex'
 
 // import modules
 import authentication from './modules/authentication'
+import resourceForm from './modules/resourceForm'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    authentication
+    authentication,
+    resourceForm
   },
   state: {
     

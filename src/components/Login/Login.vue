@@ -58,11 +58,10 @@ export default {
         database.ref('/users/' + user.uid).set({
           name: user.displayName,
           email: user.email,
-          userImage: user.photoURL
+          userImage: user.photoURL,
+          isAdmin: false,
+          isExpert: false
         });
-        
-        // Store current user in Vuex state 
-        this.$store.commit('getCurrentUser', user);
         
         // Stop authentication
         this.$store.commit('endAuthentication');
