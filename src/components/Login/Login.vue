@@ -35,7 +35,7 @@
 
 <script>
 import firebase from 'firebase'
-import { firebaseAuth } from '~/firebase/constants'
+import { firebaseAuth, database } from '~/firebase/constants'
 import router from '~/router/router'
 
 export default {
@@ -46,22 +46,29 @@ export default {
       this.$store.commit('startAuthentication');
       
       var provider = new firebase.auth.TwitterAuthProvider();
-      firebaseAuth.signInWithPopup(provider).then(function(result) {
+      firebaseAuth.signInWithPopup(provider).then((result) => {
         // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
         // You can use these server side with your app's credentials to access the Twitter API.
         var token = result.credential.accessToken;
         var secret = result.credential.secret;
         // The signed-in user info.
         var user = result.user;
+
+        // Update Firebase data
+        database.ref('/users/' + user.uid).set({
+          name: user.displayName,
+          email: user.email,
+          userImage: user.photoURL
+        });
         
-        // Auth user 
-        this.$store.commit('authUser', user);
+        // Store current user in Vuex state 
+        this.$store.commit('getCurrentUser', user);
         
         // Stop authentication
         this.$store.commit('endAuthentication');
           
         // ...
-      }).catch(function(error) {
+      }).catch((error) => {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;

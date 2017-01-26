@@ -1,11 +1,13 @@
 <template>
   <div id="app">
+    <navigation></navigation>
     <router-view></router-view>  
   </div>
 </template>
 
 <script>
 import { firebaseAuth } from '~/firebase/constants'
+import Navigation from '~/components/Navigation/Navigation'
 
 export default {
   name: 'app',
@@ -13,8 +15,11 @@ export default {
     firebaseAuth.onAuthStateChanged((user) => {
       console.log(this.$store.state.authentication);
       console.log(user);
-      this.$store.dispatch('updateFbUser', user);
+      this.$store.dispatch('getDbUser', user);
     });
+  },
+  components: {
+    Navigation
   }
 }
 

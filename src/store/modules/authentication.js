@@ -5,17 +5,17 @@ const authentication = {
     user: {
       isAuthed: false,
       authId: '',
-      name: '',
+      displayName: '',
       userImage: ''
     },
     authenticating: false
   },
   mutations: {
-    authUser (state, user) {
+    loadDbUser (state, user) {
       state.user.isAuthed = true,
-      state.user.authId = user.uid,
-      state.user.userImage = user.photoURL,
-      state.user.name = user.displayName
+      state.user.authId = user.authId,
+      state.user.userImage = user.userImage,
+      state.user.displayName = user.displayName
     },
     startAuthentication (state) {
       state.authenticating = true
@@ -25,13 +25,21 @@ const authentication = {
     }
   },
   actions: {
-    updateFbUser (context, user) {
-      database.ref('/users/' + user.uid).set({
-        name: user.displayName,
-        userImage: user.photoURL,
-        email: user.email
-      })  
-    }  
+    getDbUser (context, user) {
+      database
+        .ref('users')
+        .child(user.uid)
+        .once('value')
+        .then(snapshot => {
+          const dbUser = snapshot.val()
+            context.commit('getCurrentUser', {
+              displayName: dbUser.name,
+              email: dbUser.email,
+              userImage: dbUser.userImage,
+              authId: user.uid
+          })
+      })
+    }
   },
   getters: {
     
