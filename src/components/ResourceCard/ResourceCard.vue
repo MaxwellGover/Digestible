@@ -7,23 +7,27 @@
     <p class="card-header-title">
       {{resource.authorName}}
     </p>
-    <small>11:09 PM - 1 Jan 2016</small>
   </header>
   <div class="card-content">
     <p id="title">{{resource.title}}</p>
     <p id="description">{{resource.description}}</p>
     <div id="topics">
       <p>What you'll learn</p>
+      <div id="tags">
       <a>@bulmaio</a>. <a>#css</a> <a>#responsive</a>
+      </div>
     </div>
-    <a class="button" id="learnBtn">View project</a>
+    <a class="button" id="learnBtn">View resource</a>
   </div>
   <footer class="card-footer">
     <div id="timesPassedContainer">
       <i class="fa fa-check" aria-hidden="true"></i>
       <p id="timesPassed">{{resource.timesPassed}}</p>
     </div>
-    <a id="focus">{{resource.focus}}</a>
+    <div>
+      <a id="focus">{{resource.focus}}</a>
+      <a id="mediaType">{{resource.mediaType}}</a>
+    </div>
   </footer>
 
 </div>
@@ -69,6 +73,15 @@ export default {
   display: flex
 }
 
+#tags {
+  display: flex;
+  color: #ff3860;
+}
+
+#mediaType {
+  margin-left: 5px;  
+}
+
 .card-header {
   display: flex;
   align-items: center;
@@ -90,5 +103,6 @@ export default {
 .fa {
   color: #23d160;
 }
+
 
 </style>

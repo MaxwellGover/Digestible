@@ -7,7 +7,7 @@
     <div class="box">
       
       <p id="loginHeader">Login and start learning</p>
-      <p id="loginSubHeader">Digestible allows you to learn more about programming from authors of online tech content.</p>
+      <p id="loginSubHeader">Digestible allows you to discover new tools and learn more about programming from authors of online tech content.</p>
       
       <div id="buttonContainer">
         

@@ -7,33 +7,45 @@
   <p class="formSubText">Layout the details of your project</p>
   <label class="label">Project description</label>
   <p class="control">
-    <textarea class="textarea"></textarea>
+    <textarea class="textarea" v-model="project.desc"></textarea>
   </p> 
   
+  
+  <div id="stepsContainer">
   <label class="label">Steps</label>
   <p class="control is-grouped" v-for="(step, index) in project.steps">
-    <input class="step input">
-    <i class="fa fa-trash-o fa-2x" v-show="index > 0" aria-hidden="true"></i>
+    <input class="step input" v-model="step.text">
+    <i class="fa fa-trash-o fa-2x" v-show="index > 0" aria-hidden="true" @click="deleteStep(step)"></i>
   </p>
+  </div>
 
-  <a class="button" @click="addStep">Add another step</a>
-
+  <a class="button is-info" @click="addStep">Add another step</a>
+  
+  <div id="toolContainer">
   <label class="label">Additional tools & resources</label>
-  <small>Add links to any additional resources or development tools your user will need to complete the project.</small><br />
-  <div id="toolContainer" class="control is-horizontal" v-for="(tool, index) in project.tools">
+  <small>Add links to any additional resources or development tools your user will need to complete the project.</small>
+  <div id="toolItem" class="control is-horizontal" v-for="(tool, index) in project.tools">
     <div class="control is-grouped">
       <p class="control is-expanded">
-        <input class="input" type="text" placeholder="Name">
+        <input class="input" type="text" placeholder="Name" v-model="tool.toolName">
       </p>
-      <p class="control is-expanded">
-        <input class="input" type="url" placeholder="Link">
+      <p class="control is-expanded is-grouped">
+        <input class="input" type="url" placeholder="Link" v-model="tool.url">
+        <i class="fa fa-trash-o fa-2x" aria-hidden="true" @click="deleteTool(tool)"></i>
       </p>
-      <i class="fa fa-trash-o fa-2x" v-show="index > 0" aria-hidden="true"></i>
     </div>
   </div>
-  <a class="button" @click="addTool">Add another tool</a>
+  </div>
+  <a id="toolBtn" class="button is-info" @click="addTool">Add a tool</a>
   <label class="label">Link to finished project.</label>
-  <input class="input">
+  <input class="input" v-model="project.linkToFinished">
+  
+  <a class="nextBtn button is-medium is-success">
+    <span>Done</span>
+    <span class="icon">
+      <i class="thumb fa fa-thumbs-up" aria-hidden="true"></i>
+    </span>
+  </a>
 </div>
 
 </div>
@@ -51,7 +63,7 @@ const createNewStep = () => {
 
 const createNewTool = () => { 
   return {
-    text: '',
+    toolName: '',
     url: ''
   }
 }
@@ -61,9 +73,9 @@ export default {
   data () {
     return {
       project: {
-        description: '',
+        desc: '',
         steps: [createNewStep()],
-        tools: [createNewTool()],
+        tools: [],
         linkToFinished: ''
       }
     }
@@ -71,6 +83,9 @@ export default {
   computed: {
     resourceId () {
       return this.$store.state.resourceForm.key
+    },
+    user () {
+      return this.$store.state.authentication.user
     }
   },
   methods: {
@@ -80,6 +95,21 @@ export default {
     addTool () {
       this.project.tools.push(createNewTool())
     },
+    deleteStep (step) {
+      var index = this.project.steps.indexOf(step);
+      if (index > -1) {
+        this.project.steps.splice(index, 1);
+      }
+    },
+    deleteTool (tool) {
+      var index = this.project.tools.indexOf(tool);
+      if (index > -1) {
+        this.project.tools.splice(index, 1);
+      }
+    },
+    saveProject () {
+      // Save to firebase
+    }
   }
 }
 
@@ -93,27 +123,35 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
-  border: 1px solid red;
 }
 
-.button {
-  width: 30%;
+#stepsContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 #toolContainer {
-  display: flex
+  display: flex;
+  flex-direction: column;
+}
+
+#toolItem {
+  margin-top: 20px;
 }
 
 .box {
   margin-top: 60px;
   margin-bottom: 60px;
   width: 740px;
-  display: flex;
-  flex-direction: column;
   font-family: 'Roboto', sans-serif;
   box-shadow: none;
   border-radius: 2px;
   border: 1px solid #eceeef
+}
+
+.button {
+  margin-top: 20px;
+  padding: 10px;
 }
 
 .formHeader {
@@ -134,19 +172,22 @@ export default {
 }
 
 .nextBtn {
-  width: 30%;
   margin-top: 40px;
 }
 
 .control {
   display: flex;
   align-items: center;
-  margin-right: 20px;
 }
 
 .fa {
   color: #ff3860;
-  margin-left: 10px
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.thumb {
+  color: #fff;
 }
 
 </style>
