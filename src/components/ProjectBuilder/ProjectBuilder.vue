@@ -23,7 +23,7 @@
   
   <div id="toolContainer">
   <label class="label">Additional tools & resources</label>
-  <small>Add links to any additional resources or development tools your user will need to complete the project.</small>
+  <small id="toolHelp">Add links to any additional resources or development tools your user will need to complete the project.</small>
   <div id="toolItem" class="control is-horizontal" v-for="(tool, index) in project.tools">
     <div class="control is-grouped">
       <p class="control is-expanded">
@@ -135,8 +135,12 @@ export default {
   flex-direction: column;
 }
 
+#toolHelp {
+  margin-bottom: 5px;
+}
+
 #toolItem {
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .box {

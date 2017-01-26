@@ -27,10 +27,7 @@
       <a class="nav-item">
       	<i class="fa fa-search" aria-hidden="true"></i>
       </a>
-    
-      
-     <img id="userImage" :src="user.userImage" alt="img">
-     
+      <img id="userImage" :src="user.userImage" alt="img">
     </div>
   </div>
 </nav> 
@@ -75,7 +72,8 @@ export default {
   height: 40px;
   width: 40px;
   margin-left: 15px;
-  border-radius: 50%
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 #addResource {

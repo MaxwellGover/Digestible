@@ -33,10 +33,23 @@
     <input class="input" type="url" v-model="resource.url">
   </p>
   <small>Copy and paste the URL to your resource.</small>
+  <label class="label">What will the user learn? *</label>
+  <div class="control is-horizontal">
+    <div class="control is-grouped">
+      <p class="control is-expanded">
+        <input-tag class="input is-medium" :tags="resource.mainTag" validate="text" placeholder="Ex. Vue"></input-tag>
+        <small>The primary tech your resource is about. Ex. Vue, Javascript, etc.</small>
+      </p>
+      <p class="control is-expanded">
+        <input-tag class="input is-medium" :tags="resource.subTags" validate="text" placeholder="Ex. Vuex"></input-tag>
+        <small>Add up to 3 tags to help reach users.</small>
+      </p>
+    </div>
+  </div>
   <label class="label">Short description of your resource</label>
-    <p class="control">
-      <textarea class="textarea" v-model="resource.desc"></textarea>
-    </p>
+  <p class="control">
+    <textarea class="textarea" v-model="resource.desc"></textarea>
+  </p>
   <a class="nextBtn button is-medium is-success" @click="saveResource">
     <span>Continue</span>
     <span class="icon">
@@ -50,10 +63,12 @@
 </template>
 
 <script>
+import InputTag from 'vue-input-tag'
 import { database } from '~/firebase/constants'
 
 export default {
   name: 'ResourceForm',
+  components: { InputTag },
   data () {
     return {
       resource: {
@@ -61,7 +76,9 @@ export default {
         mediaType: '',
         focus: '',
         url: '',
-        desc: ''
+        desc: '',
+        mainTag: [],
+        subTags: []
       }
     }
   },

@@ -14,7 +14,7 @@
     <div id="topics">
       <p>What you'll learn</p>
       <div id="tags">
-      <a>@bulmaio</a>. <a>#css</a> <a>#responsive</a>
+      <a>Vue</a>. <a>#vuex</a> <a>#vue-router</a>
       </div>
     </div>
     <a class="button" id="learnBtn">View resource</a>
@@ -27,6 +27,7 @@
     <div>
       <a id="focus">{{resource.focus}}</a>
       <a id="mediaType">{{resource.mediaType}}</a>
+      <i id="bookmark" class="fa fa-bookmark-o" aria-hidden="true"></i>
     </div>
   </footer>
 
@@ -80,6 +81,12 @@ export default {
 
 #mediaType {
   margin-left: 5px;  
+}
+
+#bookmark {
+  margin-left: 30px;
+  margin-right: 10px;
+  color: #ff3860;
 }
 
 .card-header {
