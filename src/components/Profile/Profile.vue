@@ -38,7 +38,6 @@
 import Vue from 'vue'
 import VueFire from 'vuefire'
 import { database } from '~/firebase/constants'
-
 import ResourceCard from '~/components/ResourceCard/ResourceCard'
 
 Vue.use(VueFire)

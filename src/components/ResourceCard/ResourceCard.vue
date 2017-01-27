@@ -4,7 +4,7 @@
 
   <header class="card-header">
     <img id="authorImage" :src="resource.authorImage" alt="author image">
-    <p class="card-header-title">
+    <p class="card-header-title" @click="goToProfile">
       {{resource.authorName}}
     </p>
   </header>
@@ -13,10 +13,16 @@
     <p id="description">{{resource.description}}</p>
     <div id="topics">
       <div id="tags">
-        <p style="color: black">Topics: </p><a id="tag" v-for="(tag, index) in resource.tags">{{tag}}</a>
+        <p style="color: black">What you'll learn: </p><a id="tag" v-for="(tag, index) in resource.tags">{{tag}}</a>
       </div>
     </div>
-    <a class="button" id="learnBtn">View resource</a>
+    <a class="button is-success" v-if="showResourceBtn" v-bind:href="resource.url" target="_blank" id="resourceBtn">
+      <span>Go to Resource</span>
+      <span class="icon">
+        <i id="external" class="fa fa-external-link" aria-hidden="true"></i>
+      </span>
+    </a>
+    <router-link :to="/resource/ + this.resource.resourceId" class="button" id="learnBtn" v-else>Start learning</router-link>
   </div>
   <footer class="card-footer">
     <div id="timesPassedContainer">
@@ -37,10 +43,10 @@
 
 <script>
 import { firebaseAuth, database } from '~/firebase/constants'
-
+import router from '~/router/router'
 export default {
   name: 'ResourceCard',
-  props: ['resource'],
+  props: ['resource', 'showResourceBtn'],
   data () {
     return {
       bookmarked: false
@@ -63,6 +69,9 @@ export default {
           title: this.resource.title,
           url: this.resource.url
       })
+    },
+    goToProfile () {
+      router.push({ path: '/profile/' + this.resource.authorId })
     }
   }
 }
@@ -71,6 +80,7 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:500');
 
 #authorImage {
   height: 40px;
@@ -79,12 +89,12 @@ export default {
 }
 
 #title {
-  font-size: 36px;
+  font-size: 28px;
   font-family: 'Noto Sans', sans-serif;
 }
 
 #topics {
-  margin-top: 20px
+  margin-top: 20px;
 }
 
 #timesPassed {
@@ -92,7 +102,14 @@ export default {
 }
 
 #learnBtn {
-  margin-top: 20px
+  margin-top: 20px;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #ff3860;
+  color: #fff;
+  box-shadow: none;
+  border-radius: 2px;
+  border-color: #ff3860;
 }
 
 #timesPassedContainer {
@@ -105,7 +122,12 @@ export default {
 }
 
 #mediaType {
-  margin-left: 5px;  
+  margin-left: 5px;
+  color: #ff3860;
+}
+
+#focus {
+  color: #ff3860;
 }
 
 #bookmarkOutline {
@@ -125,12 +147,28 @@ export default {
 #tag {
   margin-right: 2px;
   margin-left: 5px;
+  color: #ff3860;
+}
+
+#resourceBtn {
+  margin-top: 20px;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #23d160;
+  color: #fff;
+  box-shadow: none;
+  border-radius: 2px;
+  border-color: #23d160;
 }
 
 .card-header {
   display: flex;
   align-items: center;
   padding: 10px;
+}
+
+.card-header-title {
+  cursor: pointer;
 }
 
 .card-footer {
@@ -147,6 +185,14 @@ export default {
 
 .fa {
   color: #23d160;
+}
+
+#external {
+  color: #fff
+}
+
+#authorName {
+  cursor: pointer;
 }
 
 

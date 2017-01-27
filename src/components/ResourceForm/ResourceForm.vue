@@ -42,11 +42,8 @@
   <p class="control">
     <textarea class="textarea" v-model="resource.desc"></textarea>
   </p>
-  <a class="nextBtn button is-medium is-success" @click="saveResource">
-    <span>Continue</span>
-    <span class="icon">
-      <i class="fa fa-arrow-right" aria-hidden="true"></i>
-    </span>
+  <a class="nextBtn button" @click="saveResource">
+    Continue
   </a>
 </div>
 
@@ -113,6 +110,7 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
+  background-color: #fafafa;
 }
 
 .box {
@@ -145,8 +143,15 @@ export default {
 }
 
 .nextBtn {
-  width: 30%;
+  width: 20%;
   margin-top: 40px;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #ff3860;
+  color: #fff;
+  box-shadow: none;
+  border-radius: 2px;
+  border-color: #ff3860;
 }
 
 </style>

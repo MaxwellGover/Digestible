@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import createPersistedState from 'vuex-persistedstate'
 // import modules
 import authentication from './modules/authentication'
 import resourceForm from './modules/resourceForm'
@@ -13,7 +13,7 @@ const store = new Vuex.Store({
     resourceForm
   },
   state: {
-    
+  
   },
   mutations: {
     
@@ -23,7 +23,8 @@ const store = new Vuex.Store({
   },
   getters: {
     
-  }
+  },
+  plugins: [createPersistedState()]
 })
 
 export default store;

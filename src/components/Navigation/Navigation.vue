@@ -3,9 +3,9 @@
 <nav class="nav">
   <div class="container">
     <div class="nav-left">
-      <a class="nav-item">
+      <router-link to="/" class="nav-item">
         <p id="logo">Digestible</p>
-      </a>
+      </router-link>
     </div>
 
     <!-- This "nav-toggle" hamburger menu is only visible on mobile -->
@@ -20,14 +20,19 @@
     <!-- Add the modifier "is-active" to display it on mobile -->
     <div class="nav-right nav-menu">
     
-      <a class="nav-item" id="addResource">
+      <router-link to="/info" class="nav-item" id="addResource">
         Add a resource
-      </a>
+      </router-link>
 
+      <a class="nav-item" v-if="user.uid">
+        <img id="userImage" :src="user.userImage" alt="img">
+      </a>
+      <router-link to="/login" class="nav-item" v-else>
+        Login
+      </router-link>
       <a class="nav-item">
       	<i class="fa fa-search" aria-hidden="true"></i>
       </a>
-      <img id="userImage" :src="user.userImage" alt="img">
     </div>
   </div>
 </nav> 

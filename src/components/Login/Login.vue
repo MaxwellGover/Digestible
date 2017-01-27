@@ -106,11 +106,13 @@ export default {
 
 #twitterBtn {
   background-color: #23b0e6;
+  border-color: #23b0e6;
   padding: 20px;
 }
 
 #fbookBtn {
   background-color: #48629b;
+  border-color: #48629b;
   padding: 20px;
 }
 
