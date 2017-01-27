@@ -8,6 +8,9 @@ import Login from '~/components/Login/Login'
 import ResourceForm from '~/components/ResourceForm/ResourceForm'
 import ProjectBuilder from '~/components/ProjectBuilder/ProjectBuilder'
 import Profile from '~/components/Profile/Profile'
+import ProjectProfile from '~/components/ProjectProfile/ProjectProfile'
+import ProjectDetails from '~/components/ProjectProfile/ProjectDetails'
+import ProjectTools from '~/components/ProjectProfile/ProjectTools'
 
 Vue.use(VueRouter)
 
@@ -16,7 +19,13 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/info', component: ResourceForm },
   { path: '/build', component: ProjectBuilder },
-  { path: '/profile', component: Profile }
+  { path: '/profile/:uid', component: Profile },
+  { path: '/resource/:resourceId', component: ProjectProfile, 
+  		children: [
+  			{ path: '', component: ProjectDetails },
+  			{ path: 'tools', component: ProjectTools }
+  		]
+  }
 ]
 
 const router = new VueRouter({

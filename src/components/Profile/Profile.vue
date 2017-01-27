@@ -3,19 +3,19 @@
   <div id="profileContainer">
     <div id="header" class="box">
       <div id="infoContainer" class="container">
-        <img src="" alt="profile image">
+        <img id="profileImage" :src="user.userImage" alt="profile image">
         <div id="nameContainer">
-            <p id="userName">Maxwell Gover</p>
+            <p id="userName">{{user.displayName}}</p>
             <p id="bio">This is my user bio section</p>
+            <a id="website">www.maxwellgover.com</a>
         </div>
         <div id="socialLinks">
             <i id="twitter" class="fa fa-twitter" aria-hidden="true"></i>
             <i id="facebook" class="fa fa-facebook" aria-hidden="true"></i>
-            <i id="website" class=" fa fa-globe" aria-hidden="true"></i>
+            <a class="button">Edit</a>
         </div>
       </div>
     </div>
-    
     <nav class="nav">
         <div class="container">
           <div class="nav-left">
@@ -46,6 +46,11 @@ Vue.use(VueFire)
 export default {
   name: 'Profile',
   components: { ResourceCard },
+  computed: {
+    user () {
+      return this.$store.state.authentication.user
+    }
+  }
 }
 
 </script>
@@ -83,14 +88,24 @@ export default {
   margin-left: 20px;
 }
 
+#profileImage {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%
+}
+
 #bio {
   margin-left: 20px;
   color: #8f8f8f;
 }
 
+#website {
+  margin-left: 20px
+}
+
 #socialLinks {
   align-self: flex-start;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-left: 15px;
 }
 
@@ -109,5 +124,10 @@ export default {
 .nav {
   border: 2px solid green;
   margin-top: -20px;
+}
+
+.button {
+  margin-top: -5px;
+  margin-left: 20px;
 }
 </style>

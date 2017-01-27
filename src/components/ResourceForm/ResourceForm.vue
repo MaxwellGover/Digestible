@@ -34,18 +34,10 @@
   </p>
   <small>Copy and paste the URL to your resource.</small>
   <label class="label">What will the user learn? *</label>
-  <div class="control is-horizontal">
-    <div class="control is-grouped">
-      <p class="control is-expanded">
-        <input-tag class="input is-medium" :tags="resource.mainTag" validate="text" placeholder="Ex. Vue"></input-tag>
-        <small>The primary tech your resource is about. Ex. Vue, Javascript, etc.</small>
-      </p>
-      <p class="control is-expanded">
-        <input-tag class="input is-medium" :tags="resource.subTags" validate="text" placeholder="Ex. Vuex"></input-tag>
-        <small>Add up to 3 tags to help reach users.</small>
-      </p>
-    </div>
-  </div>
+    <p class="control">
+      <input-tag class="input is-medium" :tags="resource.tags" validate="text" placeholder="Ex. Vuex"></input-tag>
+      <small>Add up to 3 tags to help reach users.</small>
+    </p>
   <label class="label">Short description of your resource</label>
   <p class="control">
     <textarea class="textarea" v-model="resource.desc"></textarea>
@@ -77,8 +69,7 @@ export default {
         focus: '',
         url: '',
         desc: '',
-        mainTag: [],
-        subTags: []
+        tags: []
       }
     }
   },
@@ -92,13 +83,16 @@ export default {
   },
   methods: {
     saveResource () {
-      this.$store.commit('saveKeyRef', this.resourceKey);
+      this.$store.commit('saveKeyRef', {
+        resourceId: this.resourceKey
+      });
 
       this.$store.dispatch('storeResource', {
         title: this.resource.title,
         url: this.resource.url,
         mediaType: this.resource.mediaType,
         focus: this.resource.focus,
+        tags: this.resource.tags,
         desc: this.resource.desc,
         timesPassed: 0,
         authorName: this.user.displayName,

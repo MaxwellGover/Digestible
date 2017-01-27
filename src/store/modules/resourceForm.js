@@ -25,6 +25,7 @@ const resourceForm = {
         url: resourceData.url,
         mediaType: resourceData.mediaType,
         focus: resourceData.focus,
+        tags: resourceData.tags,
         description: resourceData.desc,
         timesPassed: resourceData.timesPassed,
         authorName: resourceData.authorName,
@@ -42,7 +43,7 @@ const resourceForm = {
             
       database.ref().update(updates);
             
-      router.push({ path: '/create' });
+      router.push({ path: '/build' });
     }
   },
   getters: {

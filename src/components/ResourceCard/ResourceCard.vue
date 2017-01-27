@@ -12,9 +12,8 @@
     <p id="title">{{resource.title}}</p>
     <p id="description">{{resource.description}}</p>
     <div id="topics">
-      <p>What you'll learn</p>
       <div id="tags">
-      <a>Vue</a>. <a>#vuex</a> <a>#vue-router</a>
+        <p style="color: black">Topics: </p><a id="tag" v-for="(tag, index) in resource.tags">{{tag}}</a>
       </div>
     </div>
     <a class="button" id="learnBtn">View resource</a>
@@ -27,7 +26,8 @@
     <div>
       <a id="focus">{{resource.focus}}</a>
       <a id="mediaType">{{resource.mediaType}}</a>
-      <i id="bookmark" class="fa fa-bookmark-o" aria-hidden="true"></i>
+      <i id="bookmarkFilled" class="fa fa-bookmark" aria-hidden="true" v-if="bookmarked"></i>
+      <i id="bookmarkOutline" class="fa fa-bookmark-o" aria-hidden="true" @click="bookmarkResource" v-else></i>
     </div>
   </footer>
 
@@ -36,10 +36,35 @@
 </template>
 
 <script>
+import { firebaseAuth, database } from '~/firebase/constants'
 
 export default {
   name: 'ResourceCard',
-  props: ['resource']
+  props: ['resource'],
+  data () {
+    return {
+      bookmarked: false
+    }
+  },
+  methods: {
+    bookmarkResource () {
+      const user = firebaseAuth.currentUser;
+      this.bookmarked = true;
+      database.ref('/users/' + user.uid + '/savedResources/' + this.resource.resourceId).set({
+          resourceId: this.resource.resourceId,
+          authorId: this.resource.authorId,
+          authorImage: this.resource.authorImage,
+          authorName: this.resource.authorName,
+          description: this.resource.description,
+          focus: this.resource.focus,
+          mediaType: this.resource.mediaType,
+          tags: this.resource.tags,
+          timesPassed: this.resource.timesPassed,
+          title: this.resource.title,
+          url: this.resource.url
+      })
+    }
+  }
 }
 
 </script>
@@ -67,7 +92,7 @@ export default {
 }
 
 #learnBtn {
-  margin-top: 10px
+  margin-top: 20px
 }
 
 #timesPassedContainer {
@@ -83,10 +108,23 @@ export default {
   margin-left: 5px;  
 }
 
-#bookmark {
+#bookmarkOutline {
   margin-left: 30px;
   margin-right: 10px;
   color: #ff3860;
+  cursor: pointer;
+}
+
+#bookmarkFilled {
+  margin-left: 30px;
+  margin-right: 10px;
+  color: #ff3860;
+  cursor: pointer;
+}
+
+#tag {
+  margin-right: 2px;
+  margin-left: 5px;
 }
 
 .card-header {

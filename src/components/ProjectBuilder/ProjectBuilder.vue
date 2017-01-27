@@ -40,7 +40,7 @@
   <label class="label">Link to finished project.</label>
   <input class="input" v-model="project.linkToFinished">
   
-  <a class="nextBtn button is-medium is-success">
+  <a class="nextBtn button is-medium is-success" @click="submitProject">
     <span>Done</span>
     <span class="icon">
       <i class="thumb fa fa-thumbs-up" aria-hidden="true"></i>
@@ -53,7 +53,8 @@
 </template>
 
 <script>
-import { database } from '~/firebase/constants'
+import { firebaseAuth, database } from '~/firebase/constants'
+import router from '~/router/router'
 
 const createNewStep = () => { 
   return {
@@ -107,8 +108,17 @@ export default {
         this.project.tools.splice(index, 1);
       }
     },
-    saveProject () {
-      // Save to firebase
+    submitProject () {
+      const user = firebaseAuth.currentUser;
+      const updates = {};
+      
+      updates['/resources/' + this.resourceId + '/project/'] = this.project;
+      updates['/users/' + user.uid + '/createdResources/' + this.resourceId + '/project/'] = this.project;
+      database.ref().update(updates);
+      
+      router.push({ path: '/resource/' + this.resourceId});
+      
+      this.$store.commit('clearKeyRef');
     }
   }
 }
