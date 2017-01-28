@@ -1,7 +1,9 @@
 <template>
-	<div id="projectContainer" class="container">
+	<div id="projectContainer">
+
+		<div class="container">
 		<div id="left">
-			<resource-card :resource="resource" :showResourceBtn="showResourceBtn"></resource-card>
+			<resource-card :resource="resource" :showSocial="showSocial" :showResourceBtn="showResourceBtn"></resource-card>
 			<div class="tabs is-boxed">
   				<ul>
     				<li :class="{'is-active': showDetails}" @click="renderDetails">
@@ -26,74 +28,42 @@
     		</div>
 			<div id="project" class="box">
 				<router-view :project="project" :renderTools="renderTools"></router-view>
-				<!--
-				<div id="projectDetails" class="message">
-					<label class="label">Project Description</label>
-					<p>{{project.desc}}</p>
-					
-					<label id="stepsLabel" class="label">Steps</label>
-                	<ol class="stepList">
-                   		<li id="stepItem" v-for="(step, index) in project.steps">{{step.text}}</li> 
-                	</ol>
-                	<label id="toolLabel" class="label">Tools & resources</label>
-                	<p>Check out the <a>tools</a> you'll be using for this project!</p>
-                </div>
-                -->
 			</div>
 		</div>
 		<div id="right">
-			<social-sharing url="https://vuejs.org/" inline-template>
-				<div id ="socialSharingContainer">
-					<facebook id="facebook">
-						<a class="button is-medium is-info" style="background-color: #48629b; width: 70px; margin-right: 10px">
-						<span class="icon">
-  							<i class="socialIcon fa fa-facebook" aria-hidden="true"></i>
-						</span>
-						</a>
-					</facebook>
-					<twitter>
-						<a class="button is-medium is-info" style="background-color: #23b0e6; width: 70px; margin-right: 10px">
-						<span class="icon">
-  							<i class="socialIcon fa fa-twitter" aria-hidden="true"></i>
-						</span>
-						</a>
-					</twitter>
-					<linkedin>
-						<a class="button is-medium is-info" style="background-color: #0077b5; width: 70px">
-						<span class="icon">
-  							<i class="fa fa-linkedin" aria-hidden="true"></i>
-						</span>
-						</a>
-					</linkedin>
-				</div>
-			</social-sharing>
+			<login-widget v-if="!user"></login-widget>
 		</div>
 	</div>	
 </template>
 
 <script>
 import Vue from 'vue'
-import { database } from '~/firebase/constants'
+import { firebaseAuth, database } from '~/firebase/constants'
 import router from '~/router/router'
 import ResourceCard from '~/components/ResourceCard/ResourceCard'
-import SocialSharing from 'vue-social-sharing'
+import LoginWidget from '~/components/Widgets/LoginWidget'
 import VueFire from 'vuefire'
 
 Vue.use(VueFire)
-Vue.use(SocialSharing)
 
 export default {
 	name: 'ProjectProfile',
 	components: { 
 		ResourceCard, 
-		SocialSharing 
+		LoginWidget 
 	},
 	data () {
 		return {
 			showTools: false,
 			showDetails: true,
 			showResourceBtn: true,
-			showFinished: false
+			showFinished: false,
+			showSocial: true
+		}
+	},
+	computed: {
+		user () {
+			return firebaseAuth.currentUser
 		}
 	},
 	created () {
@@ -129,25 +99,25 @@ export default {
 <style scoped>
 
 #projectContainer {
+	background-color: #fafafa
+}
+
+.container {
 	display: flex;
 	justify-content: space-around;
 	align-content: center;
-	margin-top: 60px;
 }
 
 #left {
 	display: flex;
 	flex-direction: column;
-	
 	width: 65%;
+	margin-top: 60px
 }
 
 #right {
 	width: 25%;
-}
-
-#projectDetails {
-	padding: 20px;
+	margin-top: 60px
 }
 
 #socialSharingContainer {
@@ -155,15 +125,12 @@ export default {
 	justify-content: center;
 	box-shadow: none;
 	border-radius: 1px;
+	margin-top: 10px;
 }
 
 #stepItem {
 	margin-left: 20px;
 	margin-bottom: 5px;
-}
-
-#project {
-	margin-top: -21px
 }
 
 #stepsLabel {
@@ -178,11 +145,12 @@ export default {
 	background: #48629b;
 }
 
-.box {
+#project {
 	box-shadow: none;
 	border-radius: 1px;
 	border: 1px solid #cecece;
 	border-top: none;
+	margin-top: -21px
 }
 
 .tabs {

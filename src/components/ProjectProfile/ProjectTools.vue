@@ -1,5 +1,5 @@
 <template>
-	<div id="projectTools" class="message">
+	<div id="projectTools">
 		<label class="label">Project Tools</label>
 		<div class="toolItem" v-for="(tool, index) in project.tools">
         	<p class="toolName">{{tool.toolName}}</p>

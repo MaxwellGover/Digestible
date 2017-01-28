@@ -116,7 +116,7 @@ export default {
 .box {
   margin-top: 60px;
   margin-bottom: 60px;
-  width: 600px;
+  width: 740px;
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', sans-serif;

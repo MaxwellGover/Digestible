@@ -1,11 +1,16 @@
 <template>
-	<div id="finishedProjectContainer" class="message">
+	<div id="finishedProjectContainer">
 		<label class="label">Finished Project</label>
-		<p>You're all done! Enter the link to your finished project below. Finished projects are added to your profile so others can see what you have been learning.</p>
+		<p id="finishedText">You're all done! Enter the link to your finished project below. Finished projects are added to your profile so others can see what you have been learning.</p>
 		<div>
         	<p class="control">
-              <input class="input is-large" type="url" v-on:keypress.enter="saveProject">
+              <input class="input is-large" type="url" v-model="linkToCompleted" v-on:keypress.enter="saveProject">
             </p>
+            <label id="feedbackLabel" class="label">Leave feedback for the author</label>
+            <p class="control">
+              <textarea class="textarea" type="text" v-model="authorMessage" v-on:keypress.enter="saveProject"></textarea>
+            </p>
+            <small>Use this to suggest updates to the resource if certain parts were out of date.</small>
      	</div>
      	<a class="button is-medium is-success" @click="saveProject">Finish</a>
     </div>
@@ -19,9 +24,13 @@ export default {
 	name: 'FinishedProject',
 	data () {
 	    return {
-	        
+	        linkToCompleted: '',
+            authorMessage: ''
 	    }
 	},
+    created () {
+        this.$bindAsObject('resource', database.ref('/resources/' + this.$route.params.resourceId));
+    },
 	methods: {
 	    saveProject () {
     	    var user = firebaseAuth.currentUser;
@@ -30,11 +39,13 @@ export default {
                 resourceId: this.resource.resourceId,
                 authorId: this.resource.authorId,
                 authorName: this.resource.authorName,
-                authorPic: this.resource.authorPic,
+                authorImage: this.resource.authorImage,
                 timesPassed: this.resource.timesPassed + 1,
                 title: this.resource.title,
                 mediaType: this.resource.mediaType,
                 focus: this.resource.focus,
+                tags: this.resource.tags,
+                description: this.resource.description,
                 url: this.resource.url,
                 linkToCompleted: this.linkToCompleted
             }
@@ -42,9 +53,8 @@ export default {
             var updates = {};
               
             updates['/users/' + user.uid + '/completedResources/' + completedResource.resourceId] = completedResource;
-            updates['/users/' + user.uid + '/createdResources/' + completedResource.resourceId] = completedResource.timesPassed;
+            updates['/users/' + user.uid + '/createdResources/' + completedResource.resourceId] = completedResource;
             updates['/resources/' + this.resource.resourceId + '/timesPassed/'] = completedResource.timesPassed;
-            updates['/frameworks/' + completedResource.framework + '/' + completedResource.resourceId + '/project/'] = completedResource.timesPassed;
               
             database.ref().update(updates);
               
@@ -64,12 +74,12 @@ export default {
 	padding: 20px;
 }
 
-.label {
-	font-size: 20px;
+#finishedText {
+    margin-bottom: 10px
 }
 
-.control {
-    margin-top: 40px;
+#feedbackLabel {
+    margin-top: 20px
 }
 
 .button {

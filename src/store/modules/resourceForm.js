@@ -35,10 +35,15 @@ const resourceForm = {
          
       const user = firebaseAuth.currentUser;   
       const updates = {};
+
+      const tag = resource.tags.map(tag => {
+        return tag
+      })
             
       updates['/resources/' + resource.resourceId] = resource;
       updates['/users/' + user.uid + '/createdResources/' + resource.resourceId] = resource;
-  
+      updates['/tags/' + tag + '/' + resource.resourceId] = resource;
+
       context.commit('submitted');
             
       database.ref().update(updates);

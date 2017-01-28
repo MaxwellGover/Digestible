@@ -7,18 +7,18 @@
         <div class="box">
             <label class="label">Name</label>
             <p class="control is-expanded">
-              <input class="input" type="text">
+              <input class="input" type="text" :value="name" v-model="name">
             </p>
             <label class="label">Bio</label>
             <p class="control is-expanded">
-              <input class="input" type="text">
+              <input class="input" type="text" v-model="bio">
             </p>
             <label class="label">Personal website</label>
             <p class="control is-expanded">
-              <input class="input" type="url">
+              <input class="input" type="url" v-model="website">
             </p>
             <div id="buttonContainer">
-                <a class="button">Update</a>
+                <a class="button" @click="updateInfo">Update</a>
             </div>
         </div>
     </div>
@@ -27,13 +27,34 @@
 </template>
 
 <script>
+import { firebaseAuth, database } from '~/firebase/constants'
 
 export default {
     name: 'ProfileEdit',
+    created () {
+      var dbUser = firebaseAuth.currentUser;
+      this.name = dbUser.displayName;
+      this.user = dbUser;
+
+      this.bio = this.$store.state.authentication.user.bio;
+      this.website = this.$store.state.authentication.user.website;
+    },
     data () {
         return {
-          
+          user: {},
+          name: '',
+          bio: '',
+          website: '' 
         }
+    },
+    methods: {
+      updateInfo () {
+        database.ref('/users/' + this.user.uid + '/name/').set(this.name);
+
+        database.ref('/users/' + this.user.uid + '/bio/').set(this.bio);
+
+        database.ref('/users/' + this.user.uid + '/website/').set(this.website);
+      }
     }
 }    
 
@@ -49,7 +70,6 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
-  border: 2px solid blue;
   background-color: #fafafa;
 }
 

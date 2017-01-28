@@ -110,15 +110,11 @@ export default {
     },
     submitProject () {
       const user = firebaseAuth.currentUser;
-      const updates = {};
-      
-      updates['/resources/' + this.resourceId + '/project/'] = this.project;
-      updates['/users/' + user.uid + '/createdResources/' + this.resourceId + '/project/'] = this.project;
-      database.ref().update(updates);
+
+      database.ref('/resources/' + this.resourceId + '/project/').set(this.project)
       
       router.push({ path: '/resource/' + this.resourceId});
-      
-      this.$store.commit('clearKeyRef');
+    
     }
   }
 }

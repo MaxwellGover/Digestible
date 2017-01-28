@@ -1,5 +1,5 @@
 <template>
-	<div id="projectDetails" class="message">
+	<div id="projectDetails">
 		<label class="label">Project Description</label>
 		<p>{{project.desc}}</p>
 					
@@ -42,6 +42,10 @@ export default {
 
 .label {
 	font-size: 20px
+}
+
+.message {
+	background-color: #fafafa
 }
 
 </style>

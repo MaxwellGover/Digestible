@@ -24,15 +24,11 @@
         Add a resource
       </router-link>
 
-      <a class="nav-item" v-if="user.uid">
-        <img id="userImage" :src="user.userImage" alt="img">
-      </a>
+      
+      <img id="userImage" :src="user.userImage" alt="img" v-if="user" @click="goToProfile">
       <router-link to="/login" class="nav-item" v-else>
         Login
       </router-link>
-      <a class="nav-item">
-      	<i class="fa fa-search" aria-hidden="true"></i>
-      </a>
     </div>
   </div>
 </nav> 
@@ -40,6 +36,7 @@
 </template>
 
 <script>
+import router from '~/router/router'
 
 export default {
   name: 'Navigation',
@@ -47,6 +44,11 @@ export default {
   	user () {
   	  return this.$store.state.authentication.user
   	}
+  },
+  methods: {
+    goToProfile () {
+      router.push({ path: 'profile/' + this.user.authId })
+    }
   }
 }
 

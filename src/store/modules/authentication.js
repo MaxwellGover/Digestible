@@ -6,7 +6,9 @@ const authentication = {
       isAuthed: false,
       authId: '',
       displayName: '',
-      userImage: ''
+      userImage: '',
+      bio: '',
+      website: ''
     },
     authenticating: false
   },
@@ -15,7 +17,9 @@ const authentication = {
       state.user.isAuthed = true,
       state.user.authId = user.authId,
       state.user.userImage = user.userImage,
-      state.user.displayName = user.displayName
+      state.user.displayName = user.displayName,
+      state.user.bio = user.bio,
+      state.user.website = user.website
     },
     startAuthentication (state) {
       state.authenticating = true
@@ -36,6 +40,8 @@ const authentication = {
               displayName: dbUser.name,
               email: dbUser.email,
               userImage: dbUser.userImage,
+              bio: dbUser.bio,
+              website: dbUser.website,
               authId: user.uid
           })
       })

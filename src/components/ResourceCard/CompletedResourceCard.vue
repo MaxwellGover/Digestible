@@ -7,23 +7,20 @@
     <p class="card-header-title" @click="goToProfile">
       {{resource.authorName}}
     </p>
-    <social-share-widget v-show="showSocial"></social-share-widget>
+    <a id="completedContainer" :href="resource.linkToCompleted" target="_blank">
+      <p id="completedText">VIEW PROJECT</p>
+      <i id="link" class="fa fa-link" aria-hidden="true"></i>
+    </a>
   </header>
   <div class="card-content">
     <p id="title">{{resource.title}}</p>
     <p id="description">{{resource.description}}</p>
     <div id="topics">
       <div id="tags">
-        <p style="color: black">Things you'll learn about: </p><a id="tag" v-for="(tag, index) in resource.tags">{{tag}}</a>
+        <p style="color: black">What you'll learn: </p><a id="tag" v-for="(tag, index) in resource.tags">{{tag}}</a>
       </div>
     </div>
-    <a class="button is-success" v-if="showResourceBtn" v-bind:href="resource.url" target="_blank" id="resourceBtn">
-      <span>Go to Resource</span>
-      <span class="icon">
-        <i id="external" class="fa fa-external-link" aria-hidden="true"></i>
-      </span>
-    </a>
-    <router-link :to="/resource/ + this.resource.resourceId" class="button" id="learnBtn" v-else>Start learning</router-link>
+    <router-link :to="/resource/ + this.resource.resourceId" class="button" id="learnBtn">Start learning</router-link>
   </div>
   <footer class="card-footer">
     <div id="timesPassedContainer">
@@ -45,12 +42,10 @@
 <script>
 import { firebaseAuth, database } from '~/firebase/constants'
 import router from '~/router/router'
-import SocialShareWidget from '~/components/Widgets/SocialShareWidget'
 
 export default {
   name: 'ResourceCard',
-  props: ['resource', 'showResourceBtn', 'showSocial'],
-  components: { SocialShareWidget },
+  props: ['resource'],
   data () {
     return {
       bookmarked: false
@@ -86,10 +81,21 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:700');
 @import url('https://fonts.googleapis.com/css?family=Roboto:500');
 
+.card {
+  width: 100%;
+  margin-bottom: 20px
+}
+
 #authorImage {
   height: 40px;
   width: 40px;
   border-radius: 50%
+}
+
+#completedText {
+  font-family: 'Roboto', sans-serif;
+  color: #000;
+  margin-right: 10px 
 }
 
 #title {
@@ -103,11 +109,6 @@ export default {
 
 #timesPassed {
   margin-left: 10px
-}
-
-#description {
-  font-size: 16px;
-  color: #8f8f8f;
 }
 
 #learnBtn {
@@ -153,6 +154,11 @@ export default {
   cursor: pointer;
 }
 
+#description {
+  font-size: 16px;
+  color: #8f8f8f;
+}
+
 #tag {
   margin-right: 2px;
   margin-left: 5px;
@@ -170,18 +176,16 @@ export default {
   border-color: #23d160;
 }
 
-.card {
-  margin-bottom: 20px
-}
-
 .card-header {
   display: flex;
   align-items: center;
   padding: 10px;
+  background-color: #75fab4
 }
 
 .card-header-title {
   cursor: pointer;
+  color: #000;
 }
 
 .card-footer {
@@ -192,7 +196,7 @@ export default {
 }
 
 .card-content {
-  
+
 }
 
 .fa {
@@ -200,11 +204,20 @@ export default {
 }
 
 #external {
-  color: #fff
+  color: #000
 }
 
 #authorName {
   cursor: pointer;
+}
+
+#link {
+  color: #000;
+  margin-right: 5px
+}
+
+#completedContainer {
+  display: flex;
 }
 
 
