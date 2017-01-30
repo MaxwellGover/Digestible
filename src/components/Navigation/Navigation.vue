@@ -20,9 +20,9 @@
     <!-- Add the modifier "is-active" to display it on mobile -->
     <div class="nav-right nav-menu">
     
-      <router-link to="/info" class="nav-item" id="addResource">
+      <a class="nav-item" id="addResource" @click="goToResource">
         Add a resource
-      </router-link>
+      </a>
 
       
       <img id="userImage" :src="user.userImage" alt="img" v-if="user" @click="goToProfile">
@@ -37,17 +37,28 @@
 
 <script>
 import router from '~/router/router'
+import { firebaseAuth } from '~/firebase/constants' 
 
 export default {
   name: 'Navigation',
   computed: {
   	user () {
   	  return this.$store.state.authentication.user
+  	},
+  	fbUser () {
+  	  return firebaseAuth.currentUser
   	}
   },
   methods: {
     goToProfile () {
       router.push({ path: 'profile/' + this.user.authId })
+    },
+    goToResource () {
+      if (!this.fbUser) {
+        router.push({path: '/login'})
+      } else {
+        router.push({path: '/info'})
+      }
     }
   }
 }

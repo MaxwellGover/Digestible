@@ -42,7 +42,7 @@
   <p class="control">
     <textarea class="textarea" v-model="resource.desc"></textarea>
   </p>
-  <a class="nextBtn button" @click="saveResource">
+  <a class="nextBtn button" @click="saveResource" :disabled="!fbUser">
     Continue
   </a>
 </div>
@@ -53,7 +53,7 @@
 
 <script>
 import InputTag from 'vue-input-tag'
-import { database } from '~/firebase/constants'
+import { firebaseAuth, database } from '~/firebase/constants'
 
 export default {
   name: 'ResourceForm',
@@ -76,6 +76,9 @@ export default {
     },
     user () {
       return this.$store.state.authentication.user
+    },
+    fbUser () {
+      return firebaseAuth.currentUser
     }
   },
   methods: {

@@ -57,6 +57,9 @@ export default {
     }
   },
   computed: {
+    fbUser () {
+      return firebaseAuth.currentUser;
+    },
     user () {
       return this.$store.state.authentication.user
     }
@@ -68,17 +71,17 @@ export default {
   },
   methods: {
     goToEdit () {
-      router.push({ path: '/profile/' + this.user.authId + '/edit'})
+      router.push({ path: '/profile/' + this.fbUser.uid + '/edit'})
     },
     renderCreated () {
       this.showCompleted = false;
       this.showCreated = true;
-      router.push({ path: '/profile/' + this.user.authId }) 
+      router.push({ path: '/profile/' + this.fbUser.uid }) 
     },
     renderCompleted () {
       this.showCompleted = true;
       this.showCreated = false;
-      router.push({ path: '/profile/' + this.user.authId + '/completed' }) 
+      router.push({ path: '/profile/' + this.fbUser.uid + '/completed' }) 
     }
   }
 }

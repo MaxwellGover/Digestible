@@ -4,7 +4,7 @@
 		<p id="finishedText">You're all done! Enter the link to your finished project below. Finished projects are added to your profile so others can see what you have been learning.</p>
 		<div>
         	<p class="control">
-              <input class="input is-large" type="url" v-model="linkToCompleted" v-on:keypress.enter="saveProject">
+              <input class="input is-large" type="url" v-model="linkToCompleted" v-on:keypress.enter="saveProject" :disabled="!fbUser">
             </p>
             <label id="feedbackLabel" class="label">Leave feedback for the author</label>
             <p class="control">
@@ -12,7 +12,7 @@
             </p>
             <small>Use this to suggest updates to the resource if certain parts were out of date.</small>
      	</div>
-     	<a class="button is-medium is-success" @click="saveProject">Finish</a>
+     	<a class="button is-medium is-success" @click="saveProject" :disabled="!fbUser">Finish</a>
     </div>
 </template>
 
@@ -30,6 +30,11 @@ export default {
 	},
     created () {
         this.$bindAsObject('resource', database.ref('/resources/' + this.$route.params.resourceId));
+    },
+    computed: {
+        fbUser () {
+            return firebaseAuth.currentUser
+        }
     },
 	methods: {
 	    saveProject () {

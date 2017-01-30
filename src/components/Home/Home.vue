@@ -48,7 +48,6 @@ export default {
 <style scoped>
 
 #homeBackground {
-  height: 100vh;
   background-color: #fafafa
 }
 

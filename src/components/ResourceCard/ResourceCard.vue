@@ -59,20 +59,25 @@ export default {
   methods: {
     bookmarkResource () {
       const user = firebaseAuth.currentUser;
-      this.bookmarked = true;
-      database.ref('/users/' + user.uid + '/savedResources/' + this.resource.resourceId).set({
-          resourceId: this.resource.resourceId,
-          authorId: this.resource.authorId,
-          authorImage: this.resource.authorImage,
-          authorName: this.resource.authorName,
-          description: this.resource.description,
-          focus: this.resource.focus,
-          mediaType: this.resource.mediaType,
-          tags: this.resource.tags,
-          timesPassed: this.resource.timesPassed,
-          title: this.resource.title,
-          url: this.resource.url
-      })
+      if (!user) {
+        router.push({ path: '/login' });
+        return;
+      } else {
+          this.bookmarked = true;
+          database.ref('/users/' + this.resource.authorId + '/savedResources/' + this.resource.resourceId).set({
+              resourceId: this.resource.resourceId,
+              authorId: this.resource.authorId,
+              authorImage: this.resource.authorImage,
+              authorName: this.resource.authorName,
+              description: this.resource.description,
+              focus: this.resource.focus,
+              mediaType: this.resource.mediaType,
+              tags: this.resource.tags,
+              timesPassed: this.resource.timesPassed,
+              title: this.resource.title,
+              url: this.resource.url
+          })
+      }
     },
     goToProfile () {
       router.push({ path: '/profile/' + this.resource.authorId })

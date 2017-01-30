@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { firebaseAuth } from '~/firebase/constants'
+import { firebaseAuth, database } from '~/firebase/constants'
 import Navigation from '~/components/Navigation/Navigation'
 
 export default {
