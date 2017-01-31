@@ -76,20 +76,20 @@ export default {
 			this.showTools = true;
 			this.showDetails = false;
 			this.showFinished = false;
-			router.push({ path: this.resource.resourceId + '/tools' })
+			router.replace({ path: '/resource/' + this.resource.resourceId + '/tools' })
 		
 		},
 		renderDetails () {
 			this.showTools = false;
 			this.showDetails = true;
 			this.showFinished = false;
-			router.push({ path: '/resource/' + this.resource.resourceId })
+			router.replace({ path: '/resource/' + this.resource.resourceId })
 		},
 		renderFinished () {
 			this.showTools = false;
 			this.showDetails = false;
 			this.showFinished = true;
-			router.push({ path: this.resource.resourceId + '/complete'})
+			router.replace({ path: '/resource/' + this.resource.resourceId + '/complete'})
 		}
 	}
 }
