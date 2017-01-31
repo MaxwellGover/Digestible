@@ -28,12 +28,13 @@
 
 <script>
 import { firebaseAuth, database } from '~/firebase/constants'
+import router from '~/router/router'
 
 export default {
     name: 'ProfileEdit',
     created () {
       var dbUser = firebaseAuth.currentUser;
-      this.name = dbUser.displayName;
+      this.name = this.userInfo.displayName;
       this.user = dbUser;
 
       this.bio = this.$store.state.authentication.user.bio;
@@ -47,13 +48,22 @@ export default {
           website: '' 
         }
     },
+    computed: {
+      userInfo () {
+        return this.$store.state.authentication.user;
+      }
+    },
     methods: {
       updateInfo () {
         database.ref('/users/' + this.user.uid + '/name/').set(this.name);
 
+        database.ref('/users/' + this.user.uid + '/createdResources' + '/authorName').set(this.name);
+
         database.ref('/users/' + this.user.uid + '/bio/').set(this.bio);
 
         database.ref('/users/' + this.user.uid + '/website/').set(this.website);
+
+        router.push({path: '/profile/' + this.user.uid})
       }
     }
 }    

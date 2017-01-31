@@ -4,7 +4,8 @@ import router from '~/router/router'
 const resourceForm = {
   state: {
     submitted: false,
-    key: '' 
+    key: '',
+    resourceInfo: {} 
   },
   mutations: {
     submitted (state) {
@@ -15,6 +16,9 @@ const resourceForm = {
     },
     clearKeyRef (state) {
       state.key = ''
+    },
+    saveResourceInfo (state, resource) {
+      state.resourceInfo = resource.resource
     }
   },
   actions: {
@@ -32,6 +36,10 @@ const resourceForm = {
         authorImage: resourceData.authorImage,
         authorId: resourceData.authorId
       }
+
+      context.commit('saveResourceInfo', {
+        resource: resource
+      })
          
       const user = firebaseAuth.currentUser;   
       const updates = {};

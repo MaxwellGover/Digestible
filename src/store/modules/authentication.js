@@ -1,4 +1,11 @@
 import { database, firebaseAuth } from '~/firebase/constants'
+import createPersistedState from 'vuex-persistedstate'
+
+const plugins = [
+    createPersistedState({
+        paths: ['user']
+    })
+];
 
 const authentication = {
   state: {
@@ -49,7 +56,8 @@ const authentication = {
   },
   getters: {
     
-  }
+  },
+  plugins
 }
 
 export default authentication

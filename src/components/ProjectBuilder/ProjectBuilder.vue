@@ -55,6 +55,10 @@
 <script>
 import { firebaseAuth, database } from '~/firebase/constants'
 import router from '~/router/router'
+import Vue from 'vue'
+import VueFire from 'vuefire'
+
+Vue.use(VueFire)
 
 const createNewStep = () => { 
   return {
@@ -87,6 +91,9 @@ export default {
     },
     user () {
       return this.$store.state.authentication.user
+    },
+    resource () {
+      return this.$store.state.resourceForm.resourceInfo
     }
   },
   methods: {
@@ -110,13 +117,8 @@ export default {
     },
     submitProject () {
       const user = firebaseAuth.currentUser;
-      
-      const tool = this.project.tools.map(tool => {
-        return tool
-      })
 
       database.ref('/resources/' + this.resourceId + '/project/').set(this.project);
-      database.ref('/tools/' + tool).set(this.project);
       
       router.push({ path: '/resource/' + this.resourceId});
     

@@ -1,4 +1,4 @@
-<template>
+<template v-if="fbUser">
 
 <nav class="nav">
   <div class="container">
@@ -25,10 +25,12 @@
       </a>
 
       
-      <img id="userImage" :src="user.userImage" alt="img" v-if="user" @click="goToProfile">
-      <router-link to="/login" class="nav-item" v-else>
+      <img id="userImage" :src="user.userImage" alt="img" @click="goToProfile">
+      <!--
+      <router-link to="/login" class="nav-item" v-if="!fbUser">
         Login
       </router-link>
+      -->
     </div>
   </div>
 </nav> 
